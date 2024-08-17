@@ -13,7 +13,7 @@ const InputField = ({ type = 'email', label, errorMessage, ...inputProps }) => {
       <label className={`absolute -top-3 left-4 bg-white text-black font-normal text-sm px-1`}>
         {label}
       </label>
-      <div className={`flex items-center ${errorMessage ? 'border-error' : 'border-true-gray-300'} border rounded-lg p-4`}>
+      <div className={`flex items-center hover:border-yellow-400 ${errorMessage ? 'border-error' : 'border-true-gray-300'} border rounded-lg p-4`}>
         <input
           type={type}
           className="w-full outline-none text-black-80 placeholder-black-20 text-md font-normal"
