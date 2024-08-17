@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import eyeIcon from "../assets/images/eye.png";
 
-const InputField = ({ type = "text", label, validator, errorMessage: externalError, onErrorChange, ...inputProps }) => {
+const InputField = ({
+  type: assignedType = "text",
+  label,
+  validator,
+  errorMessage: externalError,
+  onErrorChange,
+  ...inputProps
+}) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [internalError, setInternalError] = useState(null);
-
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
 
   const maybeValidateValue = (input) => {
     if (!validator) return;
@@ -39,7 +42,16 @@ const InputField = ({ type = "text", label, validator, errorMessage: externalErr
     }
   }, [internalError, externalError, onErrorChange]);
 
+  const handleMouseDown = () => {
+    setIsPasswordVisible(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsPasswordVisible(false);
+  };
+
   const error = internalError || externalError;
+  const type = assignedType === "password" ? (isPasswordVisible ? "text" : "password") : assignedType;
 
   return (
     <div className="relative w-full max-w-sm mb-6 mt-4">
@@ -56,8 +68,13 @@ const InputField = ({ type = "text", label, validator, errorMessage: externalErr
           onBlur={onHandleBlur}
           onChange={handleChange}
         />
-        {type === "password" && (
-          <button type="button" onClick={togglePasswordVisibility} className="ml-2 focus:outline-none">
+        {assignedType === "password" && (
+          <button
+            type="button"
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            className={`ml-2 ${isPasswordVisible && "opacity-50"}`}>
             <img src={eyeIcon} alt="Toggle visibility" className="w-7" />
           </button>
         )}
