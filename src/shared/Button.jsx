@@ -3,7 +3,7 @@ import React from "react";
 import loadingIcon from "../assets/images/hour-glass.png";
 import chevronRight from "../assets/images/chevron-right.png";
 
-const Button = ({ children, onClick, state, disabled = false }) => {
+const Button = ({ children, onClick, state, disabled = false, ...buttonProps }) => {
   const baseClasses =
     "flex items-center justify-center px-6 py-3 gap-4 text-black text-lg font-medium rounded-lg bg-yellow-600 hover:bg-yellow-800";
 
@@ -33,6 +33,7 @@ const Button = ({ children, onClick, state, disabled = false }) => {
   return (
     <button
       onClick={onClick}
+      {...buttonProps}
       disabled={disabled || state === "loading"}
       className={`${baseClasses} ${stateClasses[state]} ${disabled ? stateClasses["disabled"] : ""}`}>
       {getButtonContent()}
