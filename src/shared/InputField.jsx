@@ -1,16 +1,39 @@
 import React, { useState } from 'react';
 import eyeIcon from '../assets/images/eye.png';
 
-const InputField = ({ type = 'email', label, errorMessage, ...inputProps }) => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
+const InputField = ({ type = 'text', label, validator, errorMessage: externalErrorMessage, ...inputProps }) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
+  const [inputValue, setInputValue] = useState('')
+  const [internalError, setInternalError] = useState(null)
 
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
+    setIsPasswordVisible(!isPasswordVisible)
+  }
 
-  const onHandleFocus = () => setIsFocused(true)
-  const onHandleBlur = () => setIsFocused(false)
+  const maybeValidateValue = (input) => {
+    if (!validator) return;
+
+    const validationError = validator(input)
+    setInternalError(validationError)
+  }
+
+  const onHandleFocus = () => {
+    setInternalError(null); 
+    setIsFocused(true)
+  }
+
+  const onHandleBlur = () => {
+    setIsFocused(false)
+    maybeValidateValue(inputValue)
+  }
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value)
+    maybeValidateValue(e.target.value)
+  }
+
+  const error = internalError || externalErrorMessage;
 
   return (
     <div className="relative w-full max-w-sm mb-6 mt-4">
@@ -18,15 +41,16 @@ const InputField = ({ type = 'email', label, errorMessage, ...inputProps }) => {
         {label}
       </label>
       <div className={`flex items-center hover:border-yellow-400 border rounded-lg p-4
-          ${errorMessage ? 'border-error' : 'border-true-gray-300'}
+          ${error ? 'border-error' : 'border-true-gray-300'}
           ${isFocused ? 'border-2 border-yellow-600 hover:border-yellow-600' : ''}`}
       >
         <input
+          {...inputProps}
           type={type}
           className="w-full outline-none text-black-80 placeholder-black-20 text-md font-normal"
-          {...inputProps}
           onFocus={onHandleFocus}
           onBlur={onHandleBlur}
+          onChange={handleChange}
         />
         {type === 'password' &&
           <button type="button" onClick={togglePasswordVisibility} className="ml-2 focus:outline-none">
@@ -34,7 +58,7 @@ const InputField = ({ type = 'email', label, errorMessage, ...inputProps }) => {
           </button>
         }
       </div>
-      {errorMessage && <p className="text-error text-sm mt-2 ml-2">{errorMessage}</p>}
+      {error && <p className="text-error text-sm mt-2 ml-2">{error}</p>}
     </div>
   );
 };
