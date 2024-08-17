@@ -64,6 +64,12 @@ module.exports = {
         'blue-200': '#F0F4F5',
         'blue-100': '#F6F8F9',
         'blue-50': '#FBFCFC',
+
+        // Error
+        'error': '#D94F14',
+      },
+      placeholderColor: {
+        'black-20': 'rgba(0,0,0,0.2)',
       },
       backgroundImage: {
         'yellow-linear': 'linear-gradient(90deg, #FFE285 0%, #E6CB78 100%)'
