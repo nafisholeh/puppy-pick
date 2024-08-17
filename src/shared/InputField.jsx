@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import eyeIcon from '../assets/images/eye.png';
 
-const InputField = ({ type = 'text', label, validator, errorMessage: externalErrorMessage, ...inputProps }) => {
+const InputField = ({ type = 'text', label, validator, errorMessage: externalError, onErrorChange, ...inputProps }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -33,7 +33,13 @@ const InputField = ({ type = 'text', label, validator, errorMessage: externalErr
     maybeValidateValue(e.target.value)
   }
 
-  const error = internalError || externalErrorMessage;
+  useEffect(() => {
+    if (onErrorChange) {
+      onErrorChange(internalError || externalError);
+    }
+  }, [internalError, externalError, onErrorChange]);
+
+  const error = internalError || externalError;
 
   return (
     <div className="relative w-full max-w-sm mb-6 mt-4">
