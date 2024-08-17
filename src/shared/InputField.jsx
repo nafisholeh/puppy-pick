@@ -45,7 +45,7 @@ const InputField = ({ type = "text", label, validator, errorMessage: externalErr
     <div className="relative w-full max-w-sm mb-6 mt-4">
       <label className={`absolute -top-3 left-4 bg-white text-black font-normal text-sm px-1`}>{label}</label>
       <div
-        className={`flex items-center hover:border-yellow-400 border rounded-lg p-4
+        className={`flex items-center bg-white hover:border-yellow-400 border rounded-lg p-4
           ${error ? "border-error" : "border-true-gray-300"}
           ${isFocused ? "border-2 border-yellow-600 hover:border-yellow-600" : ""}`}>
         <input
