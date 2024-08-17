@@ -10,7 +10,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-yellow-100">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-yellow-100">
+      <div className="text-center mb-14">
+        <h1 className="text-7xl text-true-gray-900 font-bold mb-5">Puppy Pick!</h1>
+        <h3 className="text-md text-true-gray-400">Pick the Pup of Your Dreams</h3>
+      </div>
       <Card className="w-full max-w-md p-8">
         <form onSubmit={handleSubmit}>
           <InputField label="Email" placeholder="Enter your email" validator={validateEmail} />
