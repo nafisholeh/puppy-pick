@@ -2,7 +2,8 @@
   "env": {
     "browser": true,
     "es6": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -12,13 +13,8 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "eslint:recommended",
-    "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
+  "plugins": ["@typescript-eslint", "jest"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:@typescript-eslint/recommended", "plugin:jest/recommended", "prettier"],
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": false, "endOfLine": "auto" }, { "usePrettierrc": true }],
     "react/react-in-jsx-scope": "off",
