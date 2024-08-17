@@ -9,15 +9,17 @@
     url("./assets/fonts/font.woff") format("woff");
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {  
-  background: #FAFAFA;
+body {
+  background: #fafafa;
 
   margin: 0;
   font-family:
