@@ -1,70 +1,130 @@
-# Getting Started with Create React App
+# Puppy Pick - React Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to **Puppy Pick**! This is a React-based application designed to help users pick their favorite dog breeds and save them. The project is built using React 18 and Firebase for authentication and data storage.
 
-## Available Scripts
+<div>
+  <a href="https://www.loom.com/share/5e8113bbecfc4c3a8bd0fb3ebdc1ef0b">
+    <p>Puppy Pick! demo - Watch Video</p>
+  </a>
+  <a href="https://www.loom.com/share/5e8113bbecfc4c3a8bd0fb3ebdc1ef0b">
+    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/5e8113bbecfc4c3a8bd0fb3ebdc1ef0b-cc2b2efc38310c65-full-play.gif">
+  </a>
+</div>
 
-In the project directory, you can run:
+## Getting Started
 
-### `npm start`
+To get this project up and running on your local machine, follow the steps below.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js (v14 or higher)
+- NPM (v6 or higher)
+- Firebase account
 
-### `npm test`
+### Step 1: Clone the Repository
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+git clone https://github.com/your-username/puppy-pick.git
+cd puppy-pick
+```
 
-### `npm run build`
+### Step 2: Setup Firebase Project
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Create a Firebase Project:**
+   - Go to the [Firebase Console](https://console.firebase.google.com/).
+   - Click on "Add Project" and follow the prompts to create a new project.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Enable Firebase Authentication:**
+   - In the Firebase Console, navigate to `Authentication` under the `Build` section.
+   - Click on "Get Started".
+   - Enable the Email/Password sign-in method.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Setup Firestore Database:**
+   - In the Firebase Console, navigate to `Firestore Database` under the `Build` section.
+   - Click on "Create Database" and follow the prompts to set up Firestore in production mode.
+   - Create a collection named `users` and a collection named `selectedBreeds` (you can create these programmatically when your app runs).
 
-### `npm run eject`
+### Step 3: Setup Environment Variables
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Create a `.env` file in the root of your project and add your Firebase project configuration. You can find this configuration in the Firebase Console under Project Settings > General > Your apps > Firebase SDK snippet.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+REACT_APP_FIREBASE_API_KEY=your-api-key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your-auth-domain
+REACT_APP_FIREBASE_PROJECT_ID=your-project-id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+REACT_APP_FIREBASE_APP_ID=your-app-id
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Step 4: Install Dependencies
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm install
+```
 
-## Learn More
+### Step 5: Run the Application
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This will start the development server and open the app in your default web browser.
 
-### Code Splitting
+### Step 6: Build for Production
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+When you're ready to deploy the app, you can create an optimized production build using:
 
-### Analyzing the Bundle Size
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+This will create a `build` directory with all the production-ready files.
 
-### Making a Progressive Web App
+### Step 7: Deploy to Firebase Hosting (Optional)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+If you'd like to deploy your app to Firebase Hosting:
 
-### Advanced Configuration
+```bash
+firebase login
+firebase init
+firebase deploy
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Firebase Authentication Setup
 
-### Deployment
+To set up authentication:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. Go to the Firebase Console.
+2. Navigate to `Authentication` under the `Build` section.
+3. Click "Get Started".
+4. Under the "Sign-in method" tab, enable `Email/Password`.
 
-### `npm run build` fails to minify
+## Firestore Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To set up Firestore:
+
+1. Go to the Firebase Console.
+2. Navigate to `Firestore Database` under the `Build` section.
+3. Click on "Create Database".
+4. Choose to start in production mode (locked mode) and select a location for your database.
+5. Create the collections you need (e.g., `users`, `selectedBreeds`). You can also create these collections programmatically from your app.
+
+## Project Structure
+
+- `src/`
+  - `assets/` - Contains static assets such as images.
+  - `components/` - Contains React components.
+  - `contexts/` - Contains context providers for authentication and progress management.
+  - `firebase/` - Contains Firebase configuration and initialization.
+  - `shared/` - Contains shared components used throughout the app.
+  - `App.js` - Main application component.
+  - `index.js` - Entry point for the React application.
+
+## Contributing
+
+Feel free to submit issues and pull requests. Contributions are welcome!
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
