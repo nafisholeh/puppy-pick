@@ -6,6 +6,7 @@ import Button from "../shared/Button";
 import { db } from "../firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useUserAuth } from "../contexts/authContext";
+import { useProgress } from "../contexts/ProgressContext";
 
 const MAX_BREED_PICK = 3;
 
@@ -16,6 +17,7 @@ const DogBreeds = () => {
 
   const { user } = useUserAuth();
   const navigate = useNavigate();
+  const { updateProgress } = useProgress();
 
   useEffect(() => {
     const fetchBreeds = async () => {
@@ -49,6 +51,7 @@ const DogBreeds = () => {
         timestamp: new Date(),
       });
 
+      updateProgress("breedsSelected");
       navigate("/feed");
     } catch (error) {
       console.error("Error uploading selected breeds: ", error);
