@@ -1,20 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import Card from "./Card";
 
-const CardSelect = ({ children }) => {
-  const [isOn, setIsOn] = useState(false);
-
-  const toggleSwitch = () => {
-    setIsOn(!isOn);
-  };
-
+const CardSelect = ({ children, isSelected, onSelect }) => {
   return (
-    <Card className="flex flex-row items-center justify-between cursor-pointer" onClick={toggleSwitch}>
-      {children}
-      <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center ${isOn ? "bg-yellow-600" : "bg-gray-400"}`}>
-        <div className={`w-4 h-4 rounded-full transition-colors duration-300 ${isOn ? "bg-yellow-200" : "bg-white"}`} />
-      </div>
+    <Card
+      onClick={onSelect}
+      className={`cursor-pointer p-4 border rounded-lg transition-colors duration-300 ${
+        isSelected ? "bg-yellow-200 border-yellow-600" : "bg-white"
+      }`}>
+      <div className="text-lg font-semibold">{children}</div>
     </Card>
   );
 };

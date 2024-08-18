@@ -4,6 +4,7 @@ import CardSelect from "../shared/CardSelect";
 const DogBreeds = () => {
   const [breeds, setBreeds] = useState({});
   const [loading, setLoading] = useState(true);
+  const [selectedBreeds, setSelectedBreeds] = useState([]);
 
   useEffect(() => {
     const fetchBreeds = async () => {
@@ -20,6 +21,14 @@ const DogBreeds = () => {
     fetchBreeds();
   }, []);
 
+  const handleSelectBreed = (breed) => {
+    if (selectedBreeds.includes(breed)) {
+      setSelectedBreeds(selectedBreeds.filter((item) => item !== breed));
+    } else if (selectedBreeds.length < 3) {
+      setSelectedBreeds([...selectedBreeds, breed]);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="px-6 pb-6 pt-4">
@@ -29,7 +38,12 @@ const DogBreeds = () => {
         ) : (
           <div className="grid grid-cols-3 gap-4">
             {Object.keys(breeds).map((breed) => (
-              <CardSelect>{breed}</CardSelect>
+              <CardSelect
+                key={breed}
+                isSelected={selectedBreeds.includes(breed)}
+                onSelect={() => handleSelectBreed(breed)}>
+                {breed}
+              </CardSelect>
             ))}
           </div>
         )}
