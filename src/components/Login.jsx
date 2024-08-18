@@ -10,6 +10,7 @@ const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [signupActionEnabled, setSignupActionEnabled] = useState(false);
   const [isSignupMode, setIsSignupMode] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { logIn, signUp } = useUserAuth();
 
@@ -35,8 +36,8 @@ const Login = () => {
 
   const onHandleSignin = async (event) => {
     event.preventDefault();
-
     if (hasErrors) return;
+    setLoading(true);
     try {
       await logIn(credentials.email, credentials.password);
     } catch (error) {
@@ -46,13 +47,15 @@ const Login = () => {
       } else {
         handleErrorChange("email")("Error signing in: " + error.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   const onHandleSignup = async (event) => {
     event.preventDefault();
-
     if (hasErrors) return;
+    setLoading(true);
     try {
       await signUp(credentials.email, credentials.password);
     } catch (error) {
@@ -61,10 +64,13 @@ const Login = () => {
       } else {
         handleErrorChange("email")("Error creating new user: " + error.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   const hasErrors = useMemo(() => Object.values(errors).some((error) => error), [errors]);
+  const buttonState = loading ? "loading" : hasErrors ? "disabled" : "default";
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-yellow-100">
@@ -92,7 +98,7 @@ const Login = () => {
             errorMessage={errors.password}
           />
           <div className="flex justify-end">
-            <Button type="submit" disabled={hasErrors}>
+            <Button type="submit" state={buttonState}>
               {isSignupMode ? "Create Account" : "Pick Your Pup!"}
             </Button>
           </div>
