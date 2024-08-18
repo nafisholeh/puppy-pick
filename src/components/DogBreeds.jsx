@@ -52,7 +52,9 @@ const DogBreeds = () => {
       });
 
       updateProgress("breedsSelected");
-      navigate("/feed");
+      navigate("/feed", {
+        state: { selectedBreeds },
+      });
     } catch (error) {
       console.error("Error uploading selected breeds: ", error);
     }
