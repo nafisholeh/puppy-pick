@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import CardSelect from "../shared/CardSelect";
 import SkeletonCard from "../shared/SkeletonCard";
-import Button from "../shared/Button"; // Assuming you have a shared Button component
+import Button from "../shared/Button";
+import { db } from "../firebase/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { useUserAuth } from "../contexts/authContext";
 
 const MAX_BREED_PICK = 3;
 
@@ -9,6 +12,8 @@ const DogBreeds = () => {
   const [breeds, setBreeds] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedBreeds, setSelectedBreeds] = useState([]);
+
+  const { user } = useUserAuth();
 
   useEffect(() => {
     const fetchBreeds = async () => {
@@ -33,8 +38,17 @@ const DogBreeds = () => {
     }
   };
 
-  const handleProceed = () => {
-    console.log("Proceeding with selected breeds:", selectedBreeds);
+  const handleProceed = async () => {
+    try {
+      const userRef = doc(db, "selectedBreeds", user.uid);
+
+      await setDoc(userRef, {
+        breeds: selectedBreeds,
+        timestamp: new Date(),
+      });
+    } catch (error) {
+      console.error("Error uploading selected breeds: ", error);
+    }
   };
 
   const maxSelectedReached = selectedBreeds.length === MAX_BREED_PICK;
@@ -43,7 +57,10 @@ const DogBreeds = () => {
     <div className="min-h-screen bg-gray-100 w-full">
       <div className="px-6 pb-6 pt-4 relative">
         <div className="flex items-center justify-end mb-5">
-          <Button onClick={handleProceed} state={selectedBreeds.length === 0 ? "disabled" : "default"} theme="primary">
+          <Button
+            onClick={handleProceed}
+            state={selectedBreeds.length === 0 || !user ? "disabled" : "default"}
+            theme="primary">
             Proceed
           </Button>
         </div>
