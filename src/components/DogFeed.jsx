@@ -5,6 +5,8 @@ import Card from "../shared/Card";
 import { db } from "../firebase/firebase";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { useUserAuth } from "../contexts/authContext";
+import { FixedSizeGrid as Grid } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 const DogImageFeed = () => {
   const { user } = useUserAuth();
@@ -63,25 +65,48 @@ const DogImageFeed = () => {
     }
   };
 
+  const renderImage = ({ columnIndex, rowIndex, style }) => {
+    const index = rowIndex * 2 + columnIndex;
+    const imageUrl = images[index];
+
+    if (!imageUrl) return null;
+
+    return (
+      <div style={style} key={index} className="relative pl-4">
+        <Card className="relative">
+          <img src={imageUrl} alt="Dog" className="w-full h-64 object-contain rounded-lg" loading="lazy" />
+          <button
+            onClick={() => handleLike(imageUrl)}
+            className={`absolute bottom-2 right-2 p-2 shadow-md rounded-full ${
+              likedImages.includes(imageUrl) ? "bg-yellow-700" : "bg-true-gray-200"
+            }`}>
+            <img src={heartIcon} alt="Like" className="w-5 h-5" />
+          </button>
+        </Card>
+      </div>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 w-full p-6 overflow-y-auto">
-      <h1 className="text-center text-3xl font-bold mb-6">Dog Image Feed</h1>
+    <div className="min-h-screen bg-gray-100 w-full flex flex-col">
+      <h1 className="text-center text-3xl font-bold m-6">Dog Feed</h1>
       {loading ? (
         <div className="text-center text-xl">Loading images...</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {images.map((imageUrl, index) => (
-            <Card key={index} className="relative">
-              <img src={imageUrl} alt="Dog" className="w-full h-64 object-cover rounded-lg" />
-              <button
-                onClick={() => handleLike(imageUrl)}
-                className={`absolute bottom-2 right-2 p-2 shadow-md rounded-full ${
-                  likedImages.includes(imageUrl) ? "bg-yellow-700" : "bg-true-gray-200"
-                }`}>
-                <img src={heartIcon} alt="Like" className="w-5 h-5" />
-              </button>
-            </Card>
-          ))}
+        <div className="flex-1 relative pr-4">
+          <AutoSizer>
+            {({ height, width }) => (
+              <Grid
+                columnCount={2}
+                columnWidth={width / 2}
+                height={height}
+                rowCount={Math.ceil(images.length / 2)}
+                rowHeight={305}
+                width={width}>
+                {renderImage}
+              </Grid>
+            )}
+          </AutoSizer>
         </div>
       )}
     </div>
