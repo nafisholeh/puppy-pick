@@ -6,7 +6,6 @@ import Button from "../shared/Button";
 import { validateEmail, validatePassword } from "../utils/validator";
 import Card from "../shared/Card";
 import { useUserAuth } from "../contexts/authContext";
-import { useProgress } from "../contexts/ProgressContext";
 
 const Login = () => {
   const [errors, setErrors] = useState({ email: null, password: null });
@@ -17,7 +16,6 @@ const Login = () => {
 
   const { logIn, signUp } = useUserAuth();
   const navigate = useNavigate();
-  const { updateProgress } = useProgress();
 
   const handleInputChange = (fieldName) => (value) => {
     setCredentials((prevCredentials) => ({
@@ -41,7 +39,6 @@ const Login = () => {
 
   const enterApp = () => {
     navigate("/breed");
-    updateProgress("accountCreated");
   };
 
   const onHandleSignin = async (event) => {

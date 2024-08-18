@@ -7,15 +7,21 @@ import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { useUserAuth } from "../contexts/authContext";
 import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { useProgress } from "../contexts/ProgressContext";
 
 const DogImageFeed = () => {
   const { user } = useUserAuth();
+  const { updateProgress } = useProgress();
   const location = useLocation();
   const selectedBreeds = location.state?.selectedBreeds || [];
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [likedImages, setLikedImages] = useState([]);
+
+  useEffect(() => {
+    updateProgress("breedsSelected");
+  }, []);
 
   useEffect(() => {
     const fetchImages = async () => {

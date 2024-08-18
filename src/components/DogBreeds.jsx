@@ -20,6 +20,8 @@ const DogBreeds = () => {
   const { updateProgress } = useProgress();
 
   useEffect(() => {
+    updateProgress("accountCreated");
+
     const fetchBreeds = async () => {
       try {
         const response = await fetch("https://dog.ceo/api/breeds/list/all");
@@ -51,7 +53,6 @@ const DogBreeds = () => {
         timestamp: new Date(),
       });
 
-      updateProgress("breedsSelected");
       navigate("/feed", {
         state: { selectedBreeds },
       });
