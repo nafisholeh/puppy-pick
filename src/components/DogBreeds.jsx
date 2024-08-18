@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CardSelect from "../shared/CardSelect";
 import SkeletonCard from "../shared/SkeletonCard";
+import Button from "../shared/Button"; // Assuming you have a shared Button component
 
 const DogBreeds = () => {
   const [breeds, setBreeds] = useState({});
@@ -30,10 +31,21 @@ const DogBreeds = () => {
     }
   };
 
+  const handleProceed = () => {
+    console.log("Proceeding with selected breeds:", selectedBreeds);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="px-6 pb-6 pt-4">
-        <div className="text-center mb-9 text-lg font-medium text-gray-700">You can select up to 3 breeds.</div>
+      <div className="px-6 pb-6 pt-4 relative">
+        <div className="absolute top-0 right-0 mt-4 mr-6">
+          <Button onClick={handleProceed} state={selectedBreeds.length === 0 ? "disabled" : "default"} theme="primary">
+            Proceed
+          </Button>
+        </div>
+
+        <div className="text-center mb-9 mt-2 text-lg font-medium text-gray-700">You can select up to 3 breeds.</div>
+
         {loading ? (
           <div className="grid grid-cols-3 gap-4">
             {Array.from({ length: 9 }).map((_, index) => (
