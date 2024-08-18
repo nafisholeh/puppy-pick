@@ -29,17 +29,17 @@ const MenuBarWrapper = ({ children }) => {
         <h1 className="text-2xl font-bold">Puppy Pick</h1>
         <div>
           <StepIndicator
-            state={progress.accountCreated ? "completed" : "inactive"}
+            state={progress.accountCreated || progress.breedsSelected ? "completed" : "inactive"}
             title="Create Your Account"
             description="Sign up to start your puppy journey."
           />
           <StepIndicator
-            state={progress.breedsSelected ? "completed" : "active"}
+            state={progress.breedsSelected || progress.pupsPicked ? "completed" : "active"}
             title="Choose Your Breeds"
             description="Select up to 3 dog breeds you love."
           />
           <StepIndicator
-            state={progress.pupsPicked ? "completed" : "inactive"}
+            state={progress.pupsPicked ? "completed" : progress.breedsSelected ? "active" : "inactive"}
             title="Pick Your Favorite Pups"
             description="Choose your favorite dogs from the selected breeds."
           />
