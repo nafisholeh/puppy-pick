@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+
 import InputField from "../shared/InputField";
 import Button from "../shared/Button";
 import { validateEmail, validatePassword } from "../utils/validator";
@@ -13,6 +15,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const { logIn, signUp } = useUserAuth();
+  const navigate = useNavigate();
 
   const handleInputChange = (fieldName) => (value) => {
     setCredentials((prevCredentials) => ({
@@ -40,6 +43,7 @@ const Login = () => {
     setLoading(true);
     try {
       await logIn(credentials.email, credentials.password);
+      navigate("/feed");
     } catch (error) {
       if (error.code === "auth/invalid-credential") {
         handleErrorChange("password")("Incorrect password. Please try again.");
@@ -58,6 +62,7 @@ const Login = () => {
     setLoading(true);
     try {
       await signUp(credentials.email, credentials.password);
+      navigate("/feed");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         handleErrorChange("email")("Email already in use. Please use a different email.");
