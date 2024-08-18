@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import heartIcon from "../assets/images/heart.png";
 import Card from "../shared/Card";
+import { db } from "../firebase/firebase";
+import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { useUserAuth } from "../contexts/authContext";
 
 const DogImageFeed = () => {
+  const { user } = useUserAuth();
   const location = useLocation();
   const selectedBreeds = location.state?.selectedBreeds || [];
 
@@ -34,11 +38,28 @@ const DogImageFeed = () => {
     }
   }, [selectedBreeds]);
 
-  const handleLike = (imageUrl) => {
-    if (likedImages.includes(imageUrl)) {
-      setLikedImages(likedImages.filter((url) => url !== imageUrl));
-    } else {
-      setLikedImages([...likedImages, imageUrl]);
+  const handleLike = async (imageUrl) => {
+    if (!user) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    const userDocRef = doc(db, "users", user.uid);
+
+    try {
+      if (likedImages.includes(imageUrl)) {
+        setLikedImages(likedImages.filter((url) => url !== imageUrl));
+        await updateDoc(userDocRef, {
+          likedImages: arrayRemove(imageUrl),
+        });
+      } else {
+        setLikedImages([...likedImages, imageUrl]);
+        await updateDoc(userDocRef, {
+          likedImages: arrayUnion(imageUrl),
+        });
+      }
+    } catch (error) {
+      console.error("Error updating liked images in Firestore:", error);
     }
   };
 
