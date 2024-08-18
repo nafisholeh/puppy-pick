@@ -103,7 +103,7 @@ const DogImageFeed = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 w-full flex flex-col">
-      <h1 className="text-center text-3xl font-bold m-6">Dog Feed</h1>
+      <h1 className="text-center text-true-gray-500 text-2xl font-bold m-6">Puppy Photo Feed</h1>
       <div className="flex-1 relative">
         <AutoSizer>
           {({ height, width }) => (
