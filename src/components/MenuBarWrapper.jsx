@@ -34,12 +34,12 @@ const MenuBarWrapper = ({ children }) => {
             description="Sign up to start your puppy journey."
           />
           <StepIndicator
-            state={progress.breedsSelected || progress.pupsPicked ? "completed" : "active"}
+            state={progress.breedsSelected ? "completed" : "active"}
             title="Choose Your Breeds"
             description="Select up to 3 dog breeds you love."
           />
           <StepIndicator
-            state={progress.pupsPicked ? "completed" : progress.breedsSelected ? "active" : "inactive"}
+            state={progress.breedsSelected ? "active" : "inactive"}
             title="Pick Your Favorite Pups"
             description="Choose your favorite dogs from the selected breeds."
           />
