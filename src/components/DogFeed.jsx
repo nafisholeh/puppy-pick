@@ -72,8 +72,8 @@ const DogImageFeed = () => {
     if (!imageUrl) return null;
 
     return (
-      <div style={style} key={index} className="relative pl-4">
-        <Card className="relative">
+      <div style={style} key={index} className={`${columnIndex === 0 ? "pl-2" : "pr-2"}`}>
+        <Card className="relative mx-2">
           <img src={imageUrl} alt="Dog" className="w-full h-64 object-contain rounded-lg" loading="lazy" />
           <button
             onClick={() => handleLike(imageUrl)}
@@ -93,7 +93,7 @@ const DogImageFeed = () => {
       {loading ? (
         <div className="text-center text-xl">Loading images...</div>
       ) : (
-        <div className="flex-1 relative pr-4">
+        <div className="flex-1 relative">
           <AutoSizer>
             {({ height, width }) => (
               <Grid
