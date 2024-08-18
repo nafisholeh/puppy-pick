@@ -8,8 +8,10 @@ import { useUserAuth } from "../contexts/authContext";
 const Login = () => {
   const [errors, setErrors] = useState({ email: null, password: null });
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [signupActionEnabled, setSignupActionEnabled] = useState(false);
+  const [isSignupMode, setIsSignupMode] = useState(false);
 
-  const { logIn } = useUserAuth();
+  const { logIn, signUp } = useUserAuth();
 
   const handleInputChange = (fieldName) => (value) => {
     setCredentials((prevCredentials) => ({
@@ -27,16 +29,37 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = async (event) => {
+  const switchToSignup = () => {
+    setIsSignupMode(true);
+  };
+
+  const onHandleSignin = async (event) => {
     event.preventDefault();
 
     if (hasErrors) return;
     try {
-      const userCredential = await logIn(credentials.email, credentials.password);
-      console.log("User signed in:", userCredential.user);
+      await logIn(credentials.email, credentials.password);
     } catch (error) {
       if (error.code === "auth/invalid-credential") {
-        handleErrorChange("email")("");
+        handleErrorChange("password")("Incorrect password. Please try again.");
+        setSignupActionEnabled(true);
+      } else {
+        handleErrorChange("email")("Error signing in: " + error.message);
+      }
+    }
+  };
+
+  const onHandleSignup = async (event) => {
+    event.preventDefault();
+
+    if (hasErrors) return;
+    try {
+      await signUp(credentials.email, credentials.password);
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") {
+        handleErrorChange("email")("Email already in use. Please use a different email.");
+      } else {
+        handleErrorChange("email")("Error creating new user: " + error.message);
       }
     }
   };
@@ -50,7 +73,7 @@ const Login = () => {
         <h3 className="text-md text-true-gray-400">Pick the Pup of Your Dreams</h3>
       </div>
       <Card className="w-full max-w-md p-8">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={isSignupMode ? onHandleSignup : onHandleSignin}>
           <InputField
             label="Email"
             placeholder="Enter your email"
@@ -70,9 +93,19 @@ const Login = () => {
           />
           <div className="flex justify-end">
             <Button type="submit" disabled={hasErrors}>
-              Pick Your Pup!
+              {isSignupMode ? "Create Account" : "Pick Your Pup!"}
             </Button>
           </div>
+          {!isSignupMode && signupActionEnabled && (
+            <div className="text-end mt-4">
+              <p className="text-sm text-gray-600">
+                Don’t have an account?{" "}
+                <button onClick={switchToSignup} className="text-yellow-700 hover:underline">
+                  Sign Up
+                </button>
+              </p>
+            </div>
+          )}
         </form>
       </Card>
     </div>
