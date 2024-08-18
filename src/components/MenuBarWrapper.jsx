@@ -9,11 +9,12 @@ const MenuBarWrapper = ({ children }) => {
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { progress } = useProgress();
+  const { progress, restartProgress } = useProgress();
 
   const handleLogout = async () => {
     setLoading(true);
     try {
+      restartProgress();
       await logOut();
       navigate("/");
     } catch (error) {

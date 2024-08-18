@@ -16,7 +16,19 @@ export const ProgressContextProvider = ({ children }) => {
     }));
   };
 
-  return <ProgressContext.Provider value={{ progress, updateProgress }}>{children}</ProgressContext.Provider>;
+  const restartProgress = () => {
+    setProgress({
+      accountCreated: false,
+      breedsSelected: false,
+      pupsPicked: false,
+    });
+  };
+
+  return (
+    <ProgressContext.Provider value={{ progress, updateProgress, restartProgress }}>
+      {children}
+    </ProgressContext.Provider>
+  );
 };
 
 export const useProgress = () => {
