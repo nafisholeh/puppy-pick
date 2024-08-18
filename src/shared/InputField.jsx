@@ -7,6 +7,7 @@ const InputField = ({
   validator,
   errorMessage: externalError,
   onErrorChange,
+  onHandleChange,
   ...inputProps
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -14,15 +15,22 @@ const InputField = ({
   const [inputValue, setInputValue] = useState("");
   const [internalError, setInternalError] = useState(null);
 
+  const maybePropagateError = (error) => {
+    setInternalError(error);
+    if (onErrorChange) {
+      onErrorChange(error);
+    }
+  };
+
   const maybeValidateValue = (input) => {
     if (!validator) return;
 
     const validationError = validator(input);
-    setInternalError(validationError);
+    maybePropagateError(validationError);
   };
 
   const onHandleFocus = () => {
-    setInternalError(null);
+    maybePropagateError(null);
     setIsFocused(true);
   };
 
@@ -32,15 +40,15 @@ const InputField = ({
   };
 
   const handleChange = (e) => {
-    setInputValue(e.target.value);
-    maybeValidateValue(e.target.value);
+    const value = e.target.value;
+    setInputValue(value);
+    maybeValidateValue(value);
+    onHandleChange(value);
   };
 
   useEffect(() => {
-    if (onErrorChange) {
-      onErrorChange(internalError || externalError);
-    }
-  }, [internalError, externalError, onErrorChange]);
+    setInternalError(externalError);
+  }, [externalError]);
 
   const handleMouseDown = () => {
     setIsPasswordVisible(true);
