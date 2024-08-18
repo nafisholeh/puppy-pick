@@ -2,14 +2,14 @@ import React from "react";
 import loadingIcon from "../assets/images/hour-glass.png";
 import chevronRight from "../assets/images/chevron-right.png";
 
-const Button = ({ children, onClick, state = "default", ...buttonProps }) => {
-  const baseClasses =
-    "flex items-center justify-center px-6 py-3 gap-4 text-black text-lg font-medium rounded-lg bg-yellow-600 hover:bg-yellow-800 transition-colors duration-200";
+const Button = ({ children, onClick, state = "default", theme = "primary", ...buttonProps }) => {
+  const primaryTheme = theme === "primary";
+  const baseClasses = `flex items-center justify-center px-6 py-3 gap-4 text-black text-lg font-medium rounded-lg bg-yellow-600 hover:bg-yellow-800 transition-colors duration-200 ${!primaryTheme && "border border-[1.5px] border-yellow-600"}`;
 
   const stateClasses = {
-    loading: "cursor-wait bg-yellow-500",
-    disabled: "bg-yellow-100 text-gray-500 cursor-not-allowed hover:bg-yellow-100",
-    default: "bg-yellow-600 hover:bg-yellow-800",
+    loading: `cursor-wait ${primaryTheme ? "bg-yellow-500" : "bg-yellow-50"}`,
+    disabled: `cursor-not-allowed bg-yellow-100 ${primaryTheme ? "text-gray-500 hover:bg-yellow-100" : "text-black-20 hover:bg-yellow-50"}`,
+    default: primaryTheme ? "bg-yellow-600 hover:bg-yellow-800" : "bg-yellow-100 hover:bg-yellow-50",
   };
 
   const getButtonContent = () => {
