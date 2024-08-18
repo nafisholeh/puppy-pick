@@ -22,7 +22,8 @@ const DogBreeds = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="p-6">
+      <div className="px-6 pb-6 pt-4">
+        <div className="text-center mb-9 text-lg font-medium text-gray-700">You can select up to 3 breeds.</div>
         {loading ? (
           <div className="text-center text-xl">Loading breeds...</div>
         ) : (
