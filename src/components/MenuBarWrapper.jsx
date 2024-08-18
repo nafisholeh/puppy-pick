@@ -26,7 +26,7 @@ const MenuBarWrapper = ({ children }) => {
   return (
     <div className="min-h-screen flex">
       <div className="w-1/4 bg-white shadow p-6 flex flex-col justify-between sticky top-0 h-screen">
-        <h1 className="text-2xl font-bold">Dog Breeds</h1>
+        <h1 className="text-2xl font-bold">Puppy Pick</h1>
         <div>
           <StepIndicator
             state={progress.accountCreated ? "completed" : "inactive"}
