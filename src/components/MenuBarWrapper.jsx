@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../shared/Button";
+import StepIndicator from "../shared/StepIndicator";
 import { useUserAuth } from "../contexts/authContext";
+import { useProgress } from "../contexts/ProgressContext";
 
 const MenuBarWrapper = ({ children }) => {
   const { logOut } = useUserAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { progress } = useProgress();
 
   const handleLogout = async () => {
     setLoading(true);
@@ -21,16 +24,32 @@ const MenuBarWrapper = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Top Menu Bar */}
-      <div className="bg-white shadow p-4 flex justify-between items-center">
+    <div className="min-h-screen flex">
+      <div className="w-1/4 bg-white shadow p-6 flex flex-col justify-between sticky top-0 h-screen">
         <h1 className="text-2xl font-bold">Dog Breeds</h1>
-        <Button theme="secondary" onClick={handleLogout} state={loading ? "loading" : "default"}>
+        <div>
+          <StepIndicator
+            state={progress.accountCreated ? "completed" : "inactive"}
+            title="Create Your Account"
+            description="Sign up to start your puppy journey."
+          />
+          <StepIndicator
+            state={progress.breedsSelected ? "completed" : "active"}
+            title="Choose Your Breeds"
+            description="Select up to 3 dog breeds you love."
+          />
+          <StepIndicator
+            state={progress.pupsPicked ? "completed" : "inactive"}
+            title="Pick Your Favorite Pups"
+            description="Choose your favorite dogs from the selected breeds."
+          />
+        </div>
+        <Button theme="secondary" onClick={handleLogout} state={loading ? "loading" : "default"} className="mt-8">
           Logout
         </Button>
       </div>
-      {/* Main Content Area */}
-      <div className="p-6">{children}</div>
+
+      <div className="flex-1 overflow-y-auto">{children}</div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import Button from "../shared/Button";
 import { validateEmail, validatePassword } from "../utils/validator";
 import Card from "../shared/Card";
 import { useUserAuth } from "../contexts/authContext";
+import { useProgress } from "../contexts/ProgressContext";
 
 const Login = () => {
   const [errors, setErrors] = useState({ email: null, password: null });
@@ -16,6 +17,7 @@ const Login = () => {
 
   const { logIn, signUp } = useUserAuth();
   const navigate = useNavigate();
+  const { updateProgress } = useProgress();
 
   const handleInputChange = (fieldName) => (value) => {
     setCredentials((prevCredentials) => ({
@@ -37,13 +39,18 @@ const Login = () => {
     setIsSignupMode(true);
   };
 
+  const enterApp = () => {
+    navigate("/feed");
+    updateProgress("accountCreated");
+  };
+
   const onHandleSignin = async (event) => {
     event.preventDefault();
     if (hasErrors) return;
     setLoading(true);
     try {
       await logIn(credentials.email, credentials.password);
-      navigate("/feed");
+      enterApp();
     } catch (error) {
       if (error.code === "auth/invalid-credential") {
         handleErrorChange("password")("Incorrect password. Please try again.");
@@ -62,7 +69,7 @@ const Login = () => {
     setLoading(true);
     try {
       await signUp(credentials.email, credentials.password);
-      navigate("/feed");
+      enterApp();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         handleErrorChange("email")("Email already in use. Please use a different email.");
