@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import heartIcon from "../assets/images/heart.png";
 import Card from "../shared/Card";
+import SkeletonCard from "../shared/SkeletonCard";
 import { db } from "../firebase/firebase";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { useUserAuth } from "../contexts/authContext";
@@ -75,8 +76,6 @@ const DogImageFeed = () => {
     const index = rowIndex * 2 + columnIndex;
     const imageUrl = images[index];
 
-    if (!imageUrl) return null;
-
     return (
       <div style={style} key={index} className={`${columnIndex === 0 ? "pl-2" : "pr-2"}`}>
         <Card className="relative mx-2">
@@ -93,28 +92,33 @@ const DogImageFeed = () => {
     );
   };
 
+  const renderSkeleton = ({ columnIndex, rowIndex, style }) => {
+    const index = rowIndex * 2 + columnIndex;
+    return (
+      <div style={style} key={index} className={`${columnIndex === 0 ? "px-2" : "pr-4"}`}>
+        <SkeletonCard className="relative mx-2 h-[280px]" />
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 w-full flex flex-col">
       <h1 className="text-center text-3xl font-bold m-6">Dog Feed</h1>
-      {loading ? (
-        <div className="text-center text-xl">Loading images...</div>
-      ) : (
-        <div className="flex-1 relative">
-          <AutoSizer>
-            {({ height, width }) => (
-              <Grid
-                columnCount={2}
-                columnWidth={width / 2}
-                height={height}
-                rowCount={Math.ceil(images.length / 2)}
-                rowHeight={305}
-                width={width}>
-                {renderImage}
-              </Grid>
-            )}
-          </AutoSizer>
-        </div>
-      )}
+      <div className="flex-1 relative">
+        <AutoSizer>
+          {({ height, width }) => (
+            <Grid
+              columnCount={2}
+              columnWidth={width / 2}
+              height={height}
+              rowCount={Math.ceil((loading ? 10 : images.length) / 2)} // Display a reasonable number of skeletons during loading
+              rowHeight={305}
+              width={width}>
+              {loading ? renderSkeleton : renderImage}
+            </Grid>
+          )}
+        </AutoSizer>
+      </div>
     </div>
   );
 };
