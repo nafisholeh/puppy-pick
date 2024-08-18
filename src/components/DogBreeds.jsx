@@ -44,7 +44,7 @@ const DogBreeds = () => {
 
   const handleProceed = async () => {
     try {
-      const userRef = doc(db, "selectedBreeds", user.uid);
+      const userRef = doc(db, "users", user.uid);
 
       await setDoc(userRef, {
         breeds: selectedBreeds,
