@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CardSelect from "../shared/CardSelect";
 import SkeletonCard from "../shared/SkeletonCard";
 import Button from "../shared/Button";
@@ -14,6 +15,7 @@ const DogBreeds = () => {
   const [selectedBreeds, setSelectedBreeds] = useState([]);
 
   const { user } = useUserAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBreeds = async () => {
@@ -46,6 +48,8 @@ const DogBreeds = () => {
         breeds: selectedBreeds,
         timestamp: new Date(),
       });
+
+      navigate("/feed");
     } catch (error) {
       console.error("Error uploading selected breeds: ", error);
     }

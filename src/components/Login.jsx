@@ -40,7 +40,7 @@ const Login = () => {
   };
 
   const enterApp = () => {
-    navigate("/feed");
+    navigate("/breed");
     updateProgress("accountCreated");
   };
 

@@ -4,6 +4,7 @@ import { ProgressContextProvider } from "./contexts/ProgressContext";
 import Login from "./components/Login";
 import DogBreeds from "./components/DogBreeds";
 import LayoutWrapper from "./components/LayoutWrapper";
+import DogFeed from "./components/DogFeed";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
           <Routes>
             <Route element={<LayoutWrapper />}>
               <Route path="/" element={<Login />} />
-              <Route path="/feed" element={<DogBreeds />} />
+              <Route path="/breed" element={<DogBreeds />} />
+              <Route path="/feed" element={<DogFeed />} />
             </Route>
           </Routes>
         </Router>
