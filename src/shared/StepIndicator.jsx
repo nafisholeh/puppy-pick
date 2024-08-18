@@ -5,7 +5,7 @@ const StepIndicator = ({ state = "inactive", title, description }) => {
     switch (state) {
       case "active":
         return (
-          <div className="w-10 h-10 bg-yellow-600 rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-yellow-600 rounded-full flex items-center justify-center flex-shrink-0">
             <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
               <div className="w-2.5 h-2.5 bg-yellow-600 rounded-full"></div>
             </div>
@@ -13,7 +13,7 @@ const StepIndicator = ({ state = "inactive", title, description }) => {
         );
       case "completed":
         return (
-          <div className="w-10 h-10 border-2 border-yellow-600 rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 border-2 border-yellow-600 rounded-full flex items-center justify-center flex-shrink-0">
             <svg
               className="w-6 h-6 text-yellow-600"
               fill="none"
@@ -26,7 +26,9 @@ const StepIndicator = ({ state = "inactive", title, description }) => {
         );
       case "inactive":
       default:
-        return <div className="w-10 h-10 border-2 border-gray-400 rounded-full flex items-center justify-center"></div>;
+        return (
+          <div className="w-10 h-10 border-2 border-gray-400 rounded-full flex items-center justify-center flex-shrink-0"></div>
+        );
     }
   };
 
@@ -52,9 +54,9 @@ const StepIndicator = ({ state = "inactive", title, description }) => {
   };
 
   return (
-    <div className="flex items-center space-x-4 mb-5">
+    <div className="flex items-start space-x-4 mb-5">
       {getIcon()}
-      <div>
+      <div className="flex flex-col">
         <div className={`text-base font-medium ${getTextClasses()}`}>{title}</div>
         {description && <div className={`text-sm font-normal ${getDescriptionClasses()}`}>{description}</div>}
       </div>
